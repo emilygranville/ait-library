@@ -6,13 +6,16 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>AIT Library</title>
+		<style type="text/css">
+      		<%@ include file="css/styles.css" %>
+    	</style>
 	</head>
 	<body>
 		<div>
 			<h1>Inventory Management</h1>
-			<div>
-        		<a href="${pageContext.request.contextPath}/">VIEW ALL</a>
-        		<a href="${pageContext.request.contextPath}/add">ADD A BOOK</a> 
+			<div class="header">
+        		<a href="${pageContext.request.contextPath}/" class="header-button">VIEW ALL</a>
+        		<a href="${pageContext.request.contextPath}/add" class="header-button">ADD A BOOK</a> 
       		</div>
     	</div>
 	    <div>
@@ -31,10 +34,20 @@
 	          </label>
 	          <label>
 	            # of Copies
-	            <input type="text" name="copies" value="<c:out value="${book.copies}" />" />
+		        <select name="copies">
+	              <c:forEach begin="1" end="15" varStatus="loop">
+	                <option value="${loop.index}"
+	                  <c:if test="${book.copies == loop.index}">selected</c:if>
+	                >
+	                  ${loop.index}
+	                </option>
+	              </c:forEach>
+	            </select>
 	          </label>
-	          <input type="submit" value="Save" name="submit" />
-	          <input type="submit" value="Delete" name="submit" />
+		      <div class="form-actions">
+	            <input type="submit" value="SAVE" name="submit" />
+	            <input type="submit" value="DELETE" name="submit" />
+	          </div>
 	        </form>
 	      </c:if>
 	      <c:if test="${book == null}">

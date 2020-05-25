@@ -42,6 +42,9 @@ public class Controller extends HttpServlet {
 					case "/edit":
 						showEditForm(request, response);
 				    	break;
+					case "/insert":
+				        insertBook(request, response);
+				        break;
 					case "/update":
 			    		updateBook(request, response);
 			    		break;
@@ -114,6 +117,16 @@ public class Controller extends HttpServlet {
 	private void deleteBook(final int id, HttpServletRequest request, HttpServletResponse response)
 	  throws SQLException, ServletException, IOException {	
 		dao.deleteBook(dao.getBook(id));	
+		response.sendRedirect(request.getContextPath() + "/");
+	}
+	
+	private void insertBook(HttpServletRequest request, HttpServletResponse response)
+	  throws SQLException, ServletException, IOException {
+		String title = request.getParameter("title");
+		String author = request.getParameter("author");
+		int copies = Integer.parseInt(request.getParameter("copies"));
+			
+		dao.insertBook(title, author, copies, copies);
 		response.sendRedirect(request.getContextPath() + "/");
 	}
 }
