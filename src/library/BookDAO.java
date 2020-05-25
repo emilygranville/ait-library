@@ -92,6 +92,27 @@ public class BookDAO {
 		return affected == 1;
 	}
 	
+	public boolean insertBook(String title, String author, int copies, int available)
+	  throws SQLException {
+		final String sql = "INSERT INTO books (title, author, copies, available) " +
+		  "VALUES (?, ?, ?, ?)";
+			
+		Connection conn = getConnection();
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+			
+		pstmt.setString(1, title);
+		pstmt.setString(2, author);
+		pstmt.setInt(3, copies);
+		pstmt.setInt(4, available);
+		int affected = pstmt.executeUpdate();
+			
+		pstmt.close();
+		conn.close();
+			
+		return affected == 1;
+	}
+	
+	
 	public boolean updateBook(Book book) throws SQLException {
 	  final String sql = "UPDATE books SET title = ?, author = ?, copies = ?, available = ? " +
 	  "WHERE book_id = ?";

@@ -38,7 +38,11 @@ public class Controller extends HttpServlet {
 			
 			try {
 				switch (action) {
-			    	case "/update":
+					case "/add":
+					case "/edit":
+						showEditForm(request, response);
+				    	break;
+					case "/update":
 			    		updateBook(request, response);
 			    		break;
 			    	default:
@@ -61,7 +65,10 @@ public class Controller extends HttpServlet {
 	
 	private void updateBook(HttpServletRequest request, HttpServletResponse response)
 	  throws SQLException, ServletException, IOException {			
-		final String action = request.getParameter("action");
+
+		final String action = request.getParameter("action") != null
+		  ? request.getParameter("action")
+		  : request.getParameter("submit").toLowerCase();
 		final int id = Integer.parseInt((request.getParameter("id").trim()));
 		  
 		Book book = dao.getBook(id);
@@ -72,9 +79,41 @@ public class Controller extends HttpServlet {
 			case "return":
 				book.returnMe();
 				break;
+			case "save":
+			      String title = request.getParameter("title");
+			      String author = request.getParameter("author");
+			      int copies = Integer.parseInt(request.getParameter("copies"));
+			      int available = book.getAvailable() + (copies - book.getCopies());
+					
+			      book.setTitle(title);
+			      book.setAuthor(author);
+			      book.setCopies(copies);
+			      book.setAvailable(available);
+			      break;
+			case "delete":
+			      deleteBook(id, request, response);
+			      return;
 		}
 		dao.updateBook(book);
-		  
+		response.sendRedirect(request.getContextPath() + "/");
+	}
+	
+	private void showEditForm(HttpServletRequest request, HttpServletResponse response)
+	  throws SQLException, ServletException, IOException {
+		try {
+		    final int id = Integer.parseInt((request.getParameter("id").trim()));
+
+		    Book book = dao.getBook(id);
+		    request.setAttribute("book", book);
+		} finally {
+			RequestDispatcher dispatcher = request.getRequestDispatcher("bookform.jsp");
+			dispatcher.forward(request, response);
+		}
+	}
+	
+	private void deleteBook(final int id, HttpServletRequest request, HttpServletResponse response)
+	  throws SQLException, ServletException, IOException {	
+		dao.deleteBook(dao.getBook(id));	
 		response.sendRedirect(request.getContextPath() + "/");
 	}
 }
