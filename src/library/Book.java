@@ -41,7 +41,15 @@ public class Book {
 		return available;
 	}
 	
-	public void setAvailable(int available) {
-		this.available = available;
+	public void rentMe() {
+	    if (available > 0) {
+	      available--;
+	    }
+	}
+	  
+	public void returnMe() {
+		if (available < copies) {
+			available++;
+		}
 	}
 }
