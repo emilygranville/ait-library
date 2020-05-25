@@ -17,6 +17,10 @@ public class Book {
 		this.available = available;
 	}
 	
+	public int getId() {
+		return id;
+	}
+	
 	public String getTitle() {
 		return title;
 	}
@@ -37,7 +41,7 @@ public class Book {
 		return available;
 	}
 	
-	public void setAvailable() {
+	public void setAvailable(int available) {
 		this.available = available;
 	}
 }
