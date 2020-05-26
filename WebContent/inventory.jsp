@@ -20,9 +20,6 @@
     </div>
     <div>
 		<table border="1">
-		  <%-- 
-		  <caption>All Books in Collection</caption>
-		  --%>
 		  <tr>
 		    <td>Title</td>
 		    <td>Author</td>
